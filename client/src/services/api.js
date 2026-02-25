@@ -1,7 +1,8 @@
 import axios from "axios";
 
+// Change this to your Render backend URL
 const API = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://your-render-backend-link.onrender.com/api",
 });
 
 // Attach token automatically
