@@ -1,0 +1,81 @@
+/* Page container - same as login */
+.register-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #dbeafe, #93c5fd, #3b82f6);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Card */
+.register-card {
+  background: white;
+  padding: 40px;
+  width: 350px;
+  border-radius: 15px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+/* Title */
+.register-card h2 {
+  margin-bottom: 25px;
+  color: #1e3a8a;
+}
+
+/* Inputs */
+.register-input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  outline: none;
+  transition: 0.3s ease;
+}
+
+.register-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 6px rgba(37, 99, 235, 0.4);
+}
+
+/* Button */
+.register-button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.register-button:hover {
+  background: #1e40af;
+  transform: translateY(-2px);
+}
+
+/* Login link */
+.register-login {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.register-login span {
+  color: #2563eb;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.register-login span:hover {
+  text-decoration: underline;
+}
+
+/* Form layout */
+.register-card form {
+  display: flex;
+  flex-direction: column;
+}

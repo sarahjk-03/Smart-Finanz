@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../services/api";
+import "./Register.css";
 
 function Register() {
   const [name, setName] = useState("");
@@ -27,54 +28,46 @@ function Register() {
   };
 
   return (
-    <div style={{ padding: "40px" }}>
-      <h2>Register</h2>
+    <div className="register-container">
+  <div className="register-card">
+    <h2>Register</h2>
 
-      <form onSubmit={handleRegister}>
-        <div>
-          <input
-            type="text"
-            placeholder="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
+    <form onSubmit={handleRegister}>
+      <input
+        type="text"
+        placeholder="Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        className="register-input"
+      />
 
-        <div style={{ marginTop: "10px" }}>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
+      <input
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        className="register-input"
+      />
 
-        <div style={{ marginTop: "10px" }}>
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        className="register-input"
+      />
 
-        <button style={{ marginTop: "15px" }} type="submit">
-          Register
-        </button>
-      </form>
+      <button type="submit" className="register-button">
+        Register
+      </button>
+    </form>
 
-      <p style={{ marginTop: "15px" }}>
-        Already have an account?{" "}
-        <span
-          style={{ color: "blue", cursor: "pointer" }}
-          onClick={() => navigate("/")}
-        >
-          Login
-        </span>
-      </p>
-    </div>
-  );
-}
-
+    <p className="register-login">
+      Already have an account?{" "}
+      <span onClick={() => navigate("/")}>Login</span>
+    </p>
+  </div>
+</div>
+  )};
 export default Register;
 
