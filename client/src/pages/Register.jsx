@@ -24,8 +24,10 @@ function Register() {
       alert("Registration successful!");
       navigate("/"); // go back to login
     } catch (error) {
-      alert("Registration failed");
-    }
+      console.log("Full error:", error);
+      console.log("Response:", error.response);
+      alert(error.response?.data?.message || "Registration failed");
+}
   };
 
   return (

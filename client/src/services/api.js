@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Change this to your Render backend URL
 const API = axios.create({
-  baseURL: "https://your-render-backend-link.onrender.com/api",
+  baseURL: "https://smart-finanz-server.onrender.com/api",
 });
 
 // Attach token automatically
