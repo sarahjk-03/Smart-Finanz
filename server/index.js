@@ -15,8 +15,16 @@ const app = express();
 app.set("trust proxy", 1);
 
 // === CORS: Allow only your Vercel frontend ===
+const cors = require("cors");
+
+const allowedOrigins = [
+  "http://localhost:3000", // for local dev
+  "https://smart-finanz-sarahjk0305-1382s-projects.vercel.app" // your deployed frontend
+];
+
 app.use(cors({
-  origin: "https://your-vercel-link.vercel.app", // <- replace with your Vercel link
+  origin: true,        // allow any origin (for now)
+  methods: ["GET","POST","PUT","DELETE","OPTIONS"],
   credentials: true
 }));
 
