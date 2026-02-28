@@ -14,8 +14,7 @@ const app = express();
 // === FIX: Trust Render proxy for rate-limit ===
 app.set("trust proxy", 1);
 
-// === CORS: Allow only your Vercel frontend ===
-const cors = require("cors");
+
 
 const allowedOrigins = [
   "http://localhost:3000", // for local dev
