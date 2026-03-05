@@ -43,14 +43,18 @@ router.post("/register", async (req, res) => {
     });
 
   } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+  console.error("LOGIN ERROR:", err);  
+  res.status(500).json({ message: err.message });  
+}
 });
 
     
 
     // LOGIN
+    
 router.post("/login", async (req, res) => {
+     console.log("LOGIN ROUTE HIT");
+     console.log("Request body:", req.body);
   try {
     const { email, password } = req.body;
 
@@ -83,10 +87,10 @@ router.post("/login", async (req, res) => {
 
     // 4. Create JWT
     const token = jwt.sign(
-      { userId: user.id, role: user.role },
-      process.env.JWT_SECRET,
-      { expiresIn: "1d" }
-    );
+  { userId: user.id },
+  process.env.JWT_SECRET,
+  { expiresIn: "1d" }
+  );
 
     // 5. Send token
     res.json({
@@ -95,7 +99,8 @@ router.post("/login", async (req, res) => {
     });
 
   } catch (err) {
-    res.status(500).json({ error: err.message });
+     console.error("LOGIN ERROR:", err); 
+     res.status(500).json({ error: err.message });
   }
 });
 
