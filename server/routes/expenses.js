@@ -33,7 +33,7 @@ router.post("/askdjaskdh", authMiddleware, async (req, res) => {
 router.get("/", authMiddleware, async (req, res) => {
   try {
     const userId = req.user.userId;
-
+ 
     const expenses = await pool.query(
       "SELECT * FROM expenses WHERE user_id = $1 ORDER BY date DESC",
       [userId]
@@ -52,7 +52,7 @@ router.delete("/:id", authMiddleware, async (req, res) => {
   try {
     const { id } = req.params;
     const userId = req.user.userId;
-
+    const userRole = req.user.role;
     const deletedExpense = await pool.query(
       "DELETE FROM expenses WHERE id = $1 AND user_id = $2 RETURNING *",
       [id, userId]
