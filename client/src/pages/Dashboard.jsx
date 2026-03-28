@@ -15,6 +15,24 @@ function Dashboard() {
 
   const navigate = useNavigate();
 
+  const categories = [
+  "Food & Dining",
+  "Groceries",
+  "Transport",
+  "Rent",
+  "Utilities",
+  "Entertainment",
+  "Shopping",
+  "Healthcare",
+  "Education",
+  "Travel",
+  "Bills",
+  "Insurance",
+  "EMI",
+  "Subscriptions",
+  "Others"
+];
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/");
@@ -197,12 +215,17 @@ function Dashboard() {
       <h3 style={{ marginTop: "30px" }}>Add Transaction</h3>
 
       <form onSubmit={handleAddExpense}>
-        <input
-          type="text"
-          placeholder="Category"
+        <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-        />
+        >
+        <option value="">Select Category</option>
+           {categories.map((cat, index) => (
+             <option key={index} value={cat}>
+            {cat}
+        </option>
+         ))}
+       </select>
 
         <input
           type="number"
