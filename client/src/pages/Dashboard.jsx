@@ -7,6 +7,7 @@ function Dashboard() {
   const [expenses, setExpenses] = useState([]);
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
+  const [customCategory, setCustomCategory] = useState("");
   const [type, setType] = useState("expense");
   const [date, setDate] = useState("");
   const [filterDate, setFilterDate] = useState("");
@@ -51,38 +52,40 @@ function Dashboard() {
     fetchExpenses();
   }, []);
 
-  const handleAddExpense = async (e) => {
-    e.preventDefault();
+ const handleAddExpense = async (e) => {
+  e.preventDefault();
 
-    try {
-      if (editId) {
-        await API.put(`/expenses/${editId}`, {
-          amount,
-          category,
-          type,
-          date: date ? date : new Date().toISOString().split("T")[0],
-        });
-        setEditId(null);
-      } else {
-        await API.post("/expenses", {
-           amount,
-           category,
-           type,
-           date: date ? date : new Date().toISOString().split("T")[0],
-        });
-      }
+  const selectedCategory = category === "Others" ? customCategory : category;
 
-      setAmount("");
-      setCategory("");
-      setType("expense");
-      setDate("");
-
-      fetchExpenses();
-    } catch (error) {
-      console.log(error);
+  try {
+    if (editId) {
+      await API.put(`/expenses/${editId}`, {
+        amount,
+        category: selectedCategory,
+        type,
+        date: date ? date : new Date().toISOString().split("T")[0],
+      });
+      setEditId(null);
+    } else {
+      await API.post("/expenses", {
+        amount,
+        category: selectedCategory,
+        type,
+        date: date ? date : new Date().toISOString().split("T")[0],
+      });
     }
-  };
 
+    setAmount("");
+    setCategory("");
+    setCustomCategory(""); // reset the custom input
+    setType("expense");
+    setDate("");
+
+    fetchExpenses();
+  } catch (error) {
+    console.log(error);
+  }
+};
   const handleDelete = async (id) => {
     try {
       await API.delete(`/expenses/${id}`);
@@ -215,18 +218,31 @@ function Dashboard() {
       <h3 style={{ marginTop: "30px" }}>Add Transaction</h3>
 
       <form onSubmit={handleAddExpense}>
-        <select
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
+       <select
+         value={category}
+          onChange={(e) => {
+         setCategory(e.target.value);
+         // Reset custom category if user selects anything other than Others
+         if (e.target.value !== "Others") setCustomCategory("");
+        }}
+         required
         >
-        <option value="">Select Category</option>
-           {categories.map((cat, index) => (
-             <option key={index} value={cat}>
-            {cat}
+         <option value="">Select Category</option>
+         {categories.map((cat, index) => (
+         <option key={index} value={cat}>
+          {cat}
         </option>
          ))}
-       </select>
-
+      </select>
+       {category === "Others" && (
+       <input
+        type="text"
+        placeholder="Enter custom category"
+        value={customCategory}
+        onChange={(e) => setCustomCategory(e.target.value)}
+        required
+       />
+       )}
         <input
           type="number"
           placeholder="Amount"
