@@ -237,7 +237,7 @@ function Dashboard() {
        {category === "Others" && (
        <input
         type="text"
-        placeholder="Enter custom category"
+        placeholder="Enter category"
         value={customCategory}
         onChange={(e) => setCustomCategory(e.target.value)}
         required
