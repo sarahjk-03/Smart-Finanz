@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import API from "../services/api";
 import "./Dashboard.css";
 
+
+
 function Dashboard() {
   const [expenses, setExpenses] = useState([]);
   const [amount, setAmount] = useState("");
@@ -12,6 +14,12 @@ function Dashboard() {
   const [filterDate, setFilterDate] = useState("");
   const [editId, setEditId] = useState(null);
   const [incomeInput, setIncomeInput] = useState("");
+
+  const totalBudget = 10000;       // later from DB
+const totalExpenses = 6500;      // later from DB
+const remaining = totalBudget - totalExpenses;
+
+
 
   const navigate = useNavigate();
 
@@ -118,6 +126,8 @@ function Dashboard() {
       Reports
     </button>
 
+
+   
     <button onClick={() => navigate("/profile")}>
        Profile
      </button>
@@ -197,6 +207,12 @@ function Dashboard() {
       <h3 style={{ marginTop: "30px" }}>Add Transaction</h3>
 
       <form onSubmit={handleAddExpense}>
+
+        <select value={type} onChange={(e) => setType(e.target.value)}>
+          <option value="expense">Expense</option>
+          <option value="income">Income</option>
+        </select> 
+
         <input
           type="text"
           placeholder="Category"
@@ -217,10 +233,6 @@ function Dashboard() {
           onChange={(e) => setDate(e.target.value)}
         />
 
-        <select value={type} onChange={(e) => setType(e.target.value)}>
-          <option value="expense">Expense</option>
-          <option value="income">Income</option>
-        </select>
 
         <button type="submit">
           {editId ? "Update" : "Add"}
