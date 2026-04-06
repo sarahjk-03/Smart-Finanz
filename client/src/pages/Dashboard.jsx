@@ -15,9 +15,7 @@ function Dashboard() {
   const [editId, setEditId] = useState(null);
   const [incomeInput, setIncomeInput] = useState("");
 
-  const totalBudget = 10000;       // later from DB
-const totalExpenses = 6500;      // later from DB
-const remaining = totalBudget - totalExpenses;
+
 
 
 
