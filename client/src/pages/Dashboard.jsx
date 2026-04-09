@@ -9,6 +9,7 @@ function Dashboard() {
   const [expenses, setExpenses] = useState([]);
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
+  const [customCategory, setCustomCategory] = useState("");
   const [type, setType] = useState("expense");
   const [date, setDate] = useState("");
   const [filterDate, setFilterDate] = useState("");
@@ -20,6 +21,24 @@ function Dashboard() {
 
 
   const navigate = useNavigate();
+
+  const categories = [
+  "Food & Dining",
+  "Groceries",
+  "Transport",
+  "Rent",
+  "Utilities",
+  "Entertainment",
+  "Shopping",
+  "Healthcare",
+  "Education",
+  "Travel",
+  "Bills",
+  "Insurance",
+  "EMI",
+  "Subscriptions",
+  "Others"
+];
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -39,38 +58,40 @@ function Dashboard() {
     fetchExpenses();
   }, []);
 
-  const handleAddExpense = async (e) => {
-    e.preventDefault();
+ const handleAddExpense = async (e) => {
+  e.preventDefault();
 
-    try {
-      if (editId) {
-        await API.put(`/expenses/${editId}`, {
-          amount,
-          category,
-          type,
-          date: date ? date : new Date().toISOString().split("T")[0],
-        });
-        setEditId(null);
-      } else {
-        await API.post("/expenses", {
-           amount,
-           category,
-           type,
-           date: date ? date : new Date().toISOString().split("T")[0],
-        });
-      }
+  const selectedCategory = category === "Others" ? customCategory : category;
 
-      setAmount("");
-      setCategory("");
-      setType("expense");
-      setDate("");
-
-      fetchExpenses();
-    } catch (error) {
-      console.log(error);
+  try {
+    if (editId) {
+      await API.put(`/expenses/${editId}`, {
+        amount,
+        category: selectedCategory,
+        type,
+        date: date ? date : new Date().toISOString().split("T")[0],
+      });
+      setEditId(null);
+    } else {
+      await API.post("/expenses", {
+        amount,
+        category: selectedCategory,
+        type,
+        date: date ? date : new Date().toISOString().split("T")[0],
+      });
     }
-  };
 
+    setAmount("");
+    setCategory("");
+    setCustomCategory(""); // reset the custom input
+    setType("expense");
+    setDate("");
+
+    fetchExpenses();
+  } catch (error) {
+    console.log(error);
+  }
+};
   const handleDelete = async (id) => {
     try {
       await API.delete(`/expenses/${id}`);
@@ -206,18 +227,38 @@ function Dashboard() {
 
       <form onSubmit={handleAddExpense}>
 
-        <select value={type} onChange={(e) => setType(e.target.value)}>
-          <option value="expense">Expense</option>
-          <option value="income">Income</option>
-        </select> 
 
-        <input
-          type="text"
-          placeholder="Category"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-        />
+      <select value={type} onChange={(e) => setType(e.target.value)}>
+         <option value="expense">Expense</option>
+         <option value="income">Income</option>
+      </select>
 
+      <select
+        value={category}
+        onChange={(e) => {
+        setCategory(e.target.value);
+        if (e.target.value !== "Others") setCustomCategory("");
+       }}
+        required
+    >
+     <option value="">Select Category</option>
+      {categories.map((cat, index) => (
+     <option key={index} value={cat}>
+      {cat}
+     </option>
+    ))}
+     </select>
+
+     {category === "Others" && (
+    <input
+    type="text"
+    placeholder="Enter category"
+    value={customCategory}
+    onChange={(e) => setCustomCategory(e.target.value)}
+    required
+    />
+    )}
+     git
         <input
           type="number"
           placeholder="Amount"
