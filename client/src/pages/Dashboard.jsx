@@ -22,7 +22,7 @@ function Dashboard() {
 
   const navigate = useNavigate();
 
-  const categories = [
+  const expenseCategories = [
   "Food & Dining",
   "Groceries",
   "Transport",
@@ -39,6 +39,20 @@ function Dashboard() {
   "Subscriptions",
   "Others"
 ];
+
+ const incomeCategories = [
+  "Salary",
+  "Freelance",
+  "Business",
+  "Investments",
+  "Rental Income",
+  "Interest",
+  "Bonus",
+  "Other"
+];
+   
+   const categories =
+  type === "income" ? incomeCategories : expenseCategories;
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -220,7 +234,7 @@ function Dashboard() {
     }
   }}
 >
-  Save Income
+  {existingIncome ? "Update Income" : "Add Income"}
 </button>
 
       <h3 style={{ marginTop: "30px" }}>Add Transaction</h3>
@@ -258,7 +272,7 @@ function Dashboard() {
     required
     />
     )}
-     git
+     
         <input
           type="number"
           placeholder="Amount"
