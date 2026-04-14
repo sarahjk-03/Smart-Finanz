@@ -1,20 +1,20 @@
 import axios from "axios";
 
-// Change this to your Render backend URL
 const API = axios.create({
   baseURL: "http://localhost:10000/api",
 });
 
-// Attach token automatically
-API.interceptors.request.use((req) => {
+API.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
 
+  console.log("🚀 TOKEN BEING SENT:", token);
+
   if (token) {
-    req.headers.Authorization = `Bearer ${token}`;
+    config.headers = config.headers || {};
+    config.headers.Authorization = `Bearer ${token}`;
   }
 
-  return req;
+  return config;
 });
 
 export default API;
-
