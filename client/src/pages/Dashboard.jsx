@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../services/api";
 import "./Dashboard.css";
-
+import IncomeExpenseChart from "../components/IncomeExpensechart";
 
 
 function Dashboard() {
@@ -133,7 +133,11 @@ function Dashboard() {
 
   const balance = totalIncome - totalExpense;
 
-  
+  const chartData = [
+  { name: "Income", value: totalIncome },
+  { name: "Expense", value: totalExpense },
+];
+
  const filteredExpenses = expenses
   .filter((item) =>
     filterDate
@@ -170,6 +174,9 @@ function Dashboard() {
 </div>
 
       <div className="summary">
+        <div style={{ marginTop: "40px", display: "flex", justifyContent: "center" }}>
+         <IncomeExpenseChart data={chartData} />
+        </div>
         <div className="card income">
           <h3>Income</h3>
           <p>₹{totalIncome}</p>
