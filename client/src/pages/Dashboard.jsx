@@ -22,7 +22,7 @@ function Dashboard() {
 
   const navigate = useNavigate();
 
-  const categories = [
+  const expenseCategories = [
   "Food & Dining",
   "Groceries",
   "Transport",
@@ -39,6 +39,20 @@ function Dashboard() {
   "Subscriptions",
   "Others"
 ];
+
+ const incomeCategories = [
+  "Salary",
+  "Freelance",
+  "Business",
+  "Investments",
+  "Rental Income",
+  "Interest",
+  "Bonus",
+  "Other"
+];
+   
+   const categories =
+  type === "income" ? incomeCategories : expenseCategories;
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -220,67 +234,71 @@ function Dashboard() {
     }
   }}
 >
-  Save Income
+  {existingIncome ? "Update Income" : "Add Income"}
 </button>
 
       <h3 style={{ marginTop: "30px" }}>Add Transaction</h3>
 
-      <form onSubmit={handleAddExpense}>
-       <select
-  value={type}
-  onChange={(e) => {
-    setType(e.target.value);
-    setCategory("");
-    setCustomCategory("");
-  }}
->
-  <option value="expense">Expense</option>
-  <option value="income">Income</option>
-</select>
+      
+        <form onSubmit={handleAddExpense}>
+  <select
+    value={type}
+    onChange={(e) => {
+      setType(e.target.value);
+      setCategory("");
+      setCustomCategory("");
+    }}
+  >
+    <option value="expense">Expense</option>
+    <option value="income">Income</option>
+  </select>
 
-<select
-  value={category}
-  onChange={(e) => {
-    setCategory(e.target.value);
-    if (e.target.value !== "Others") setCustomCategory("");
-  }}
-  required
->
-  <option value="">Select Category</option>
-  {categories.map((cat, index) => (
-    <option key={index} value={cat}>
-      {cat}
-    </option>
-  ))}
-</select>
-
-{category === "Others" && (
-  <input
-    type="text"
-    placeholder="Enter category"
-    value={customCategory}
-    onChange={(e) => setCustomCategory(e.target.value)}
+  <select
+    value={category}
+    onChange={(e) => {
+      setCategory(e.target.value);
+      if (e.target.value !== "Others") setCustomCategory("");
+    }}
     required
+  >
+    <option value="">Select Category</option>
+    {categories.map((cat, index) => (
+      <option key={index} value={cat}>
+        {cat}
+      </option>
+    ))}
+  </select>
+
+  {category === "Others" && (
+    <input
+      type="text"
+      placeholder="Enter category"
+      value={customCategory}
+      onChange={(e) => setCustomCategory(e.target.value)}
+      required
+    />
+  )}
+
+  <input
+    type="number"
+    placeholder="Amount"
+    value={amount}
+    onChange={(e) => setAmount(e.target.value)}
   />
-)}
-        <input
-          type="number"
-          placeholder="Amount"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-        />
 
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-        />
+  <input
+    type="date"
+    value={date}
+    onChange={(e) => setDate(e.target.value)}
+  />
 
+  <button type="submit">
+    {editId ? "Update" : "Add"}
+  </button>
+</form>
+       
 
-        <button type="submit">
-          {editId ? "Update" : "Add"}
-        </button>
-      </form>
+      
 
       <h3 style={{ marginTop: "30px" }}>Filter by Date</h3>
 
