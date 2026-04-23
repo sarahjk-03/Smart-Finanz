@@ -3,7 +3,7 @@ import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 const COLORS = {
    
  Income: "#1B7F3A",   
-Expense: "#B71C1C", 
+ Expense: "#B71C1C", 
 
 
 
@@ -41,6 +41,5 @@ export default function IncomeExpenseChart({ data }) {
     </PieChart>
   );
 }
-
 
 
