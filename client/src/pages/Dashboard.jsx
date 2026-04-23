@@ -137,6 +137,22 @@ function Dashboard() {
   { name: "Income", value: totalIncome },
   { name: "Expense", value: totalExpense },
 ];
+  
+
+  const categoryData = Object.values(
+  expenses
+    .filter((item) => item.type === "expense")
+    .reduce((acc, curr) => {
+      if (!acc[curr.category]) {
+        acc[curr.category] = {
+          name: curr.category,
+          value: 0,
+        };
+      }
+      acc[curr.category].value += Number(curr.amount);
+      return acc;
+    }, {})
+);
 
  const filteredExpenses = expenses
   .filter((item) =>
@@ -173,26 +189,40 @@ function Dashboard() {
   </div>
 </div>
 
-      <div className="summary">
-        <div style={{ marginTop: "40px", display: "flex", justifyContent: "center" }}>
-         <IncomeExpenseChart data={chartData} />
-        </div>
-        <div className="card income">
-          <h3>Income</h3>
-          <p>₹{totalIncome}</p>
-        </div>
+     <div className="summary">
 
-        <div className="card expense">
-          <h3>Expense</h3>
-          <p>₹{totalExpense}</p>
-        </div>
+  {/* LEFT SIDE - CHARTS */}
+  <div className="charts-section">
 
-        <div className="card balance">
-          <h3>Balance</h3>
-          <p>₹{balance}</p>
-        </div>
-      </div>
-       
+    <h3>Income vs Expenses</h3>
+    <IncomeExpenseChart data={chartData} type="incomeExpense" />
+
+    <h3>Expenses by Category</h3>
+    <IncomeExpenseChart data={categoryData} type="expense" />
+
+  </div>
+
+  {/* RIGHT SIDE - CARDS */}
+  <div className="cards-section">
+
+    <div className="card income">
+      <h3>Income</h3>
+      <p>₹{totalIncome}</p>
+    </div>
+
+    <div className="card expense">
+      <h3>Expense</h3>
+      <p>₹{totalExpense}</p>
+    </div>
+
+    <div className="card balance">
+      <h3>Balance</h3>
+      <p>₹{balance}</p>
+    </div>
+
+  </div>
+
+</div>
        
 
       <h3 style={{ marginTop: "30px" }}>Add Transaction</h3>
