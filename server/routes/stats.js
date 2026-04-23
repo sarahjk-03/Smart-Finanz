@@ -1,11 +1,12 @@
 const express = require("express");
+const authenticateToken = require("../middleware/authMiddleware");
 const router = express.Router();
 const pool = require("../db");
 
 //  Income vs Expense Pie Chart
-router.get("/income-expense", async (req, res) => {
+router.get("/income-expense",authenticateToken, async (req, res) => {
   try {
-    const userId = 14; // later replace with auth user id
+    const userId = req.user.userId;
 
     const result = await pool.query(
       `
