@@ -14,7 +14,7 @@ function Dashboard() {
   const [date, setDate] = useState("");
   const [filterDate, setFilterDate] = useState("");
   const [editId, setEditId] = useState(null);
-  const [incomeInput, setIncomeInput] = useState("");
+  
 
 
 
@@ -74,7 +74,7 @@ function Dashboard() {
 
  const handleAddExpense = async (e) => {
   e.preventDefault();
-
+ console.log("Add button clicked");
   const selectedCategory = category === "Others" ? customCategory : category;
 
   try {
@@ -133,12 +133,8 @@ function Dashboard() {
 
   const balance = totalIncome - totalExpense;
 
-  const existingIncome = expenses.find(
-  (item) => item.type === "income"
-);
-
-  const filteredExpenses = expenses
-  .filter((item) => item.type === "expense")   
+  
+ const filteredExpenses = expenses
   .filter((item) =>
     filterDate
       ? item.date?.split("T")[0] === filterDate
@@ -190,52 +186,7 @@ function Dashboard() {
         </div>
       </div>
        
-       <h3 style={{ marginTop: "30px" }}>Add Income</h3>
-
-<input
-  type="number"
-  placeholder="Enter Income Amount"
-  value={incomeInput}
-  onChange={(e) => setIncomeInput(e.target.value)}
-/>
-
-<button
-  onClick={async () => {
-    if (!incomeInput) return;
-
-    try {
-      // Find existing income for this user
-      const existingIncome = expenses.find(
-        (item) => item.type === "income"
-      );
-
-      if (existingIncome) {
-        // UPDATE existing income
-        await API.put(`/expenses/${existingIncome.id}`, {
-          amount: incomeInput,
-          category: "Income",
-          type: "income",
-          date: existingIncome.date,
-        });
-      } else {
-        // CREATE new income
-        await API.post("/expenses", {
-          amount: incomeInput,
-          category: "Income",
-          type: "income",
-          date: new Date().toISOString().split("T")[0],
-        });
-      }
-
-      setIncomeInput("");
-      fetchExpenses();
-    } catch (error) {
-      console.log(error);
-    }
-  }}
->
-  {existingIncome ? "Update Income" : "Add Income"}
-</button>
+       
 
       <h3 style={{ marginTop: "30px" }}>Add Transaction</h3>
 
@@ -326,10 +277,9 @@ function Dashboard() {
               }}
             >
               {/* LEFT SIDE */}
-              <div>
-                {expense.category} - ₹
-                {Number(expense.amount).toFixed(2)} ({expense.type})
-              </div>
+              <span style={{ color: expense.type === "income" ? "green" : "red" }}>
+                {expense.category} - ₹{Number(expense.amount).toFixed(2)} ({expense.type})
+              </span>
 
               {/* RIGHT SIDE */}
               <div style={{ display: "flex", gap: "15px", alignItems: "center" }}>
