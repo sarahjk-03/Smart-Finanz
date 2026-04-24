@@ -8,6 +8,7 @@ const expenseRoutes = require("./routes/expenses");
 const adminRoutes = require("./routes/admin");
 const errorMiddleware = require("./middleware/errorMiddleware");
 const rateLimit = require("express-rate-limit");
+const statsRoutes = require("./routes/stats");
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.use(limiter);
 app.use("/api/admin", adminRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/expenses", expenseRoutes);
+app.use("/api/stats", statsRoutes);
 
 app.get("/", (req, res) => {
   res.send("SmartFinanz API is running");
