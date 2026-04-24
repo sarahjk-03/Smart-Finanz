@@ -313,10 +313,17 @@ function Dashboard() {
                 borderBottom: "1px solid #ddd",
               }}
             >
-              {/* LEFT SIDE */}
-              <span style={{ color: expense.type === "income" ? "green" : "red" }}>
-                {expense.category} - ₹{Number(expense.amount).toFixed(2)} ({expense.type})
-              </span>
+              <div>
+                <div>
+                  {expense.category} - ₹{Number(expense.amount).toFixed(2)} ({expense.type})
+                  </div>
+
+                 {expense.description && (
+                   <div style={{ fontSize: "12px", color: "#777", marginTop: "3px" }}>
+                     {expense.description}
+                   </div>
+              )}
+              </div>
 
               {/* RIGHT SIDE */}
               <div style={{ display: "flex", gap: "15px", alignItems: "center" }}>
