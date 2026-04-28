@@ -14,7 +14,7 @@ function Dashboard() {
   const [date, setDate] = useState("");
   const [filterDate, setFilterDate] = useState("");
   const [editId, setEditId] = useState(null);
-  
+  const [description, setDescription] = useState('');
 
 
 
@@ -83,6 +83,7 @@ function Dashboard() {
         amount,
         category: selectedCategory,
         type,
+        description,
         date: date ? date : new Date().toISOString().split("T")[0],
       });
       setEditId(null);
@@ -91,6 +92,7 @@ function Dashboard() {
         amount,
         category: selectedCategory,
         type,
+        description,
         date: date ? date : new Date().toISOString().split("T")[0],
       });
     }
@@ -100,7 +102,7 @@ function Dashboard() {
     setCustomCategory(""); // reset the custom input
     setType("expense");
     setDate("");
-
+    setDescription("");
     fetchExpenses();
   } catch (error) {
     console.log(error);
@@ -121,6 +123,7 @@ function Dashboard() {
     setType(expense.type);
     setDate(expense.date?.split("T")[0]);
     setEditId(expense.id);
+    setDescription(expense.description);
   };
 
   const totalIncome = expenses
@@ -266,6 +269,13 @@ function Dashboard() {
       required
     />
   )}
+
+  <input
+    type="text"
+    placeholder="Description"
+    value={description}
+    onChange={(e) => setDescription(e.target.value)}
+  />
 
   <input
     type="number"

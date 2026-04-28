@@ -36,8 +36,16 @@ export default function IncomeExpenseChart({ data }) {
       ))}
      </Pie>
 
-      <Tooltip />
-      <Legend />
+     <Tooltip
+       formatter={(value, name) => [`₹${value}`, name]}
+       contentStyle={{
+       backgroundColor: "#ffffff",
+       borderRadius: "8px",
+       border: "none",
+       color: "#867c7c"
+      }}
+    />
+
     </PieChart>
   );
 }

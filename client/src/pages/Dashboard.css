@@ -136,17 +136,12 @@ li {
   gap: 40px;
 }
 
-/* LEFT SIDE */
-.charts-section {
-  flex: 2;
-}
-
-/* RIGHT SIDE - THIS IS KEY */
-.cards-section {
-  flex: 1;
+.cards-section{
+  width: 100%;
+  height: 400px; /* or more */
   display: flex;
-  flex-direction: column;   /* forces vertical stacking */
-  gap: 20px;
+  justify-content: center;
+  align-items: center;
 }
 
 /* IMPORTANT: prevent weird stretching */
