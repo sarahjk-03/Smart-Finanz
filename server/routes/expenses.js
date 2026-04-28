@@ -9,7 +9,7 @@ const router = express.Router();
 // ADD EXPENSE / INCOME
 router.post("/", authMiddleware, async (req, res) => {
   try {
-    const { amount, category, type, date } = req.body;
+    const { amount, category,description, type, date } = req.body;
     const userId = req.user.userId;
 
     const newExpense = await pool.query(
@@ -17,7 +17,7 @@ router.post("/", authMiddleware, async (req, res) => {
        (user_id, amount, category, description, type, date)
        VALUES ($1, $2, $3, $4, $5, $6)
        RETURNING *`,
-      [userId, amount, category, null, type, date]
+      [userId, amount, category, description, type, date]
     );
 
     res.status(201).json(newExpense.rows[0]);

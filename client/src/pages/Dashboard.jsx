@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../services/api";
 import "./Dashboard.css";
-
+import IncomeExpenseChart from "../components/IncomeExpensechart";
 
 
 function Dashboard() {
@@ -14,7 +14,7 @@ function Dashboard() {
   const [date, setDate] = useState("");
   const [filterDate, setFilterDate] = useState("");
   const [editId, setEditId] = useState(null);
-  
+  const [description, setDescription] = useState('');
 
 
 
@@ -83,6 +83,7 @@ function Dashboard() {
         amount,
         category: selectedCategory,
         type,
+        description,
         date: date ? date : new Date().toISOString().split("T")[0],
       });
       setEditId(null);
@@ -91,6 +92,7 @@ function Dashboard() {
         amount,
         category: selectedCategory,
         type,
+        description,
         date: date ? date : new Date().toISOString().split("T")[0],
       });
     }
@@ -100,7 +102,7 @@ function Dashboard() {
     setCustomCategory(""); // reset the custom input
     setType("expense");
     setDate("");
-
+    setDescription("");
     fetchExpenses();
   } catch (error) {
     console.log(error);
@@ -121,6 +123,7 @@ function Dashboard() {
     setType(expense.type);
     setDate(expense.date?.split("T")[0]);
     setEditId(expense.id);
+    setDescription(expense.description);
   };
 
   const totalIncome = expenses
@@ -133,7 +136,27 @@ function Dashboard() {
 
   const balance = totalIncome - totalExpense;
 
+  const chartData = [
+  { name: "Income", value: totalIncome },
+  { name: "Expense", value: totalExpense },
+];
   
+
+  const categoryData = Object.values(
+  expenses
+    .filter((item) => item.type === "expense")
+    .reduce((acc, curr) => {
+      if (!acc[curr.category]) {
+        acc[curr.category] = {
+          name: curr.category,
+          value: 0,
+        };
+      }
+      acc[curr.category].value += Number(curr.amount);
+      return acc;
+    }, {})
+);
+
  const filteredExpenses = expenses
   .filter((item) =>
     filterDate
@@ -169,23 +192,40 @@ function Dashboard() {
   </div>
 </div>
 
-      <div className="summary">
-        <div className="card income">
-          <h3>Income</h3>
-          <p>₹{totalIncome}</p>
-        </div>
+     <div className="summary">
 
-        <div className="card expense">
-          <h3>Expense</h3>
-          <p>₹{totalExpense}</p>
-        </div>
+  {/* LEFT SIDE - CHARTS */}
+  <div className="charts-section">
 
-        <div className="card balance">
-          <h3>Balance</h3>
-          <p>₹{balance}</p>
-        </div>
-      </div>
-       
+    <h3>Income vs Expenses</h3>
+    <IncomeExpenseChart data={chartData} type="incomeExpense" />
+
+    <h3>Expenses by Category</h3>
+    <IncomeExpenseChart data={categoryData} type="expense" />
+
+  </div>
+
+  {/* RIGHT SIDE - CARDS */}
+  <div className="cards-section">
+
+    <div className="card income">
+      <h3>Income</h3>
+      <p>₹{totalIncome}</p>
+    </div>
+
+    <div className="card expense">
+      <h3>Expense</h3>
+      <p>₹{totalExpense}</p>
+    </div>
+
+    <div className="card balance">
+      <h3>Balance</h3>
+      <p>₹{balance}</p>
+    </div>
+
+  </div>
+
+</div>
        
 
       <h3 style={{ marginTop: "30px" }}>Add Transaction</h3>
@@ -229,6 +269,13 @@ function Dashboard() {
       required
     />
   )}
+
+  <input
+    type="text"
+    placeholder="Description"
+    value={description}
+    onChange={(e) => setDescription(e.target.value)}
+  />
 
   <input
     type="number"
@@ -276,10 +323,17 @@ function Dashboard() {
                 borderBottom: "1px solid #ddd",
               }}
             >
-              {/* LEFT SIDE */}
-              <span style={{ color: expense.type === "income" ? "green" : "red" }}>
-                {expense.category} - ₹{Number(expense.amount).toFixed(2)} ({expense.type})
-              </span>
+              <div>
+                <div>
+                  {expense.category} - ₹{Number(expense.amount).toFixed(2)} ({expense.type})
+                  </div>
+
+                 {expense.description && (
+                   <div style={{ fontSize: "12px", color: "#777", marginTop: "3px" }}>
+                     {expense.description}
+                   </div>
+              )}
+              </div>
 
               {/* RIGHT SIDE */}
               <div style={{ display: "flex", gap: "15px", alignItems: "center" }}>
