@@ -7,7 +7,7 @@ const router = express.Router();
 
 
 // ADD EXPENSE / INCOME
-router.post("/", authMiddleware, async (req, res) => {
+router.post("/askdjaskdh", authMiddleware, async (req, res) => {
   try {
     const { amount, category, type, date } = req.body;
     const userId = req.user.userId;
